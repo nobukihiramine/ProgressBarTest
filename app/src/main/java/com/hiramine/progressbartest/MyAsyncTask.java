@@ -105,11 +105,11 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Integer> implements On
 		{
 			if( 0 != result )
 			{	// 処理成功
-				Toast.makeText( context, "Finished. Succeeded.", Toast.LENGTH_SHORT ).show();
+				Toast.makeText( context, m_strTaskName + " : Succeeded.", Toast.LENGTH_SHORT ).show();
 			}
 			else
 			{	// 処理失敗
-				Toast.makeText( context, "Finished. Failed.", Toast.LENGTH_SHORT ).show();
+				Toast.makeText( context, m_strTaskName + " : Failed.", Toast.LENGTH_SHORT ).show();
 			}
 		}
 	}
@@ -131,7 +131,7 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Integer> implements On
 		Context context = m_weakrefContext.get();
 		if( null != context )
 		{
-			Toast.makeText( m_weakrefContext.get(), "Canceled.", Toast.LENGTH_SHORT ).show();
+			Toast.makeText( m_weakrefContext.get(), m_strTaskName + " : Canceled.", Toast.LENGTH_SHORT ).show();
 		}
 	}
 

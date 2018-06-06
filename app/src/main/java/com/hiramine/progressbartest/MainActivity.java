@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		{
 			case R.id.buttonStart:
 				// タスク実行
-				String strTaskName = String.format( Locale.US, "TaskNo : %d", iCounter );
+				String strTaskName = String.format( Locale.US, "Task%d", iCounter );
 				MyAsyncTask myasynctask = new MyAsyncTask( this,
 														   (ProgressBar)findViewById( R.id.progressbarTask ),
 														   (ImageButton)findViewById( R.id.imagebuttonCancel ),
