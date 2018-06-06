@@ -1,7 +1,6 @@
 # ProgressBarTest
 非同期タスクの進捗表示をする方法のサンプル実装。  
-従来、AsyncTaskクラスを用いた非同期タスクの進捗表示は、ProgressDialogクラスを用いることで実現できたが、  
-ProgressDialogクラスの使用は非推奨となりました。  
+AsyncTaskクラスを用いた非同期タスクの進捗表示は、ProgressDialogクラスを用いることで実現できましたが、ProgressDialogクラスの使用は非推奨となりました。  
 AsyncTaskクラスを用いた非同期タスクの進捗表示を、ProgressBarクラスを用いて実現します。  
 
 ## Screenshots : スクリーンショット
