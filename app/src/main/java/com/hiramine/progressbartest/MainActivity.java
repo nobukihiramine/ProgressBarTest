@@ -3,6 +3,7 @@ package com.hiramine.progressbartest;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,9 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		setContentView( R.layout.activity_main );
 
 		// プログレス関連コントロールの非表示
-		findViewById( R.id.progressbarTask ).setVisibility( View.GONE );
-		findViewById( R.id.imagebuttonCancel ).setVisibility( View.GONE );
-		findViewById( R.id.textviewTaskName ).setVisibility( View.GONE );
+		findViewById( R.id.progresscontrols ).setVisibility( View.GONE );
 
 		// スタートボタンのクリックリスナーの設定
 		findViewById( R.id.buttonStart ).setOnClickListener( this );
@@ -39,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 				// タスク実行
 				String strTaskName = String.format( Locale.US, "Task%d", iCounter );
 				MyAsyncTask myasynctask = new MyAsyncTask( this,
+														   (ViewGroup)findViewById( R.id.progresscontrols ),
 														   (ProgressBar)findViewById( R.id.progressbarTask ),
 														   (ImageButton)findViewById( R.id.imagebuttonCancel ),
 														   (TextView)findViewById( R.id.textviewTaskName ),

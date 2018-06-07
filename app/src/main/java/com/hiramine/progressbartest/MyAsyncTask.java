@@ -3,6 +3,7 @@ package com.hiramine.progressbartest;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,19 +15,20 @@ import java.lang.ref.WeakReference;
 public class MyAsyncTask extends AsyncTask<Void, Integer, Integer> implements OnProgressListener, View.OnClickListener
 {
 	// メンバー変数
-	private WeakReference<Context>     m_weakrefContext;	// for Toast
-	private WeakReference<ProgressBar> m_weakrefProgressBar;		// Progress Controls
-	private WeakReference<ImageButton> m_weakrefImageButtonCancel;	// Progress Controls
-	private WeakReference<TextView>    m_weakrefTextView;	// Progress Controls
-	private String                     m_strTaskName;	// TaskName
-	private boolean                    m_bInit;	// 初期化処理されたかフラグ
+	private WeakReference<Context>     m_weakrefContext;    // for Toast
+	private WeakReference<ViewGroup>   m_weakrefProgressControls;
+	private WeakReference<ProgressBar> m_weakrefProgressBar;
+	private WeakReference<ImageButton> m_weakrefImageButtonCancel;
+	private WeakReference<TextView>    m_weakrefTextView;
+	private String                     m_strTaskName;    // TaskName
+	private boolean                    m_bInit;    // 初期化処理されたかフラグ
 
 	// コンストラクタ
-	public MyAsyncTask( Context context, ProgressBar progressBar, ImageButton buttonCancel, TextView textView, String strTaskName )
+	public MyAsyncTask( Context context, ViewGroup progresscontrols, ProgressBar progressBar, ImageButton buttonCancel, TextView textView, String strTaskName )
 	{
 		m_weakrefContext = new WeakReference<>( context );
+		m_weakrefProgressControls = new WeakReference<>( progresscontrols );
 		m_weakrefProgressBar = new WeakReference<>( progressBar );
-		m_weakrefImageButtonCancel = new WeakReference<>( buttonCancel );
 		m_weakrefImageButtonCancel = new WeakReference<>( buttonCancel );
 		m_weakrefTextView = new WeakReference<>( textView );
 		m_strTaskName = strTaskName;
@@ -48,8 +50,8 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Integer> implements On
 	@Override
 	protected Integer doInBackground( Void... params )
 	{
-		updateProgress( 0, 100 );	// プログレス状態の初期化
-		return SomethingProcess.doSomething( this );	// 時間を要する処理
+		updateProgress( 0, 100 );    // プログレス状態の初期化
+		return SomethingProcess.doSomething( this );    // 時間を要する処理
 	}
 
 	// プログレスの更新
@@ -63,7 +65,11 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Integer> implements On
 		{
 			// プログレス関連コントロールを表示にする。
 			// タスクの連続実行の際に、前のタスクの終了時に非表示にしたものを再表示するために必要。
-			setControlsVisibility( View.VISIBLE );
+			ViewGroup progresscontrols = m_weakrefProgressControls.get();
+			if( null != progresscontrols )
+			{
+				progresscontrols.setVisibility( View.VISIBLE );
+			}
 
 			// クリックリスナーの登録
 			ImageButton imageButton = m_weakrefImageButtonCancel.get();
@@ -74,7 +80,7 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Integer> implements On
 
 			// タスク名テキストの設定
 			TextView textView = m_weakrefTextView.get();
-			if( null != textView)
+			if( null != textView )
 			{
 				textView.setText( m_strTaskName );
 			}
@@ -97,18 +103,22 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Integer> implements On
 	protected void onPostExecute( Integer result )
 	{
 		// プログレス関連コントロールを非表示にする。
-		setControlsVisibility( View.GONE );
+		ViewGroup progresscontrols = m_weakrefProgressControls.get();
+		if( null != progresscontrols )
+		{
+			progresscontrols.setVisibility( View.GONE );
+		}
 
 		// タスク完了後の処理
 		Context context = m_weakrefContext.get();
 		if( null != context )
 		{
 			if( 0 != result )
-			{	// 処理成功
+			{    // 処理成功
 				Toast.makeText( context, m_strTaskName + " : Succeeded.", Toast.LENGTH_SHORT ).show();
 			}
 			else
-			{	// 処理失敗
+			{    // 処理失敗
 				Toast.makeText( context, m_strTaskName + " : Failed.", Toast.LENGTH_SHORT ).show();
 			}
 		}
@@ -125,7 +135,11 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Integer> implements On
 	protected void onCancelled()
 	{
 		// プログレス関連コントロールを非表示にする。
-		setControlsVisibility( View.GONE );
+		ViewGroup progresscontrols = m_weakrefProgressControls.get();
+		if( null != progresscontrols )
+		{
+			progresscontrols.setVisibility( View.GONE );
+		}
 
 		// タスクキャンセル後の処理
 		Context context = m_weakrefContext.get();
@@ -159,26 +173,6 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Integer> implements On
 		{
 			// キャンセル
 			cancel( true );
-		}
-	}
-
-	// プログレス関連コントロールの表示/非表示
-	private void setControlsVisibility( int iVisibility )
-	{
-		ProgressBar progressBar = m_weakrefProgressBar.get();
-		if( null != progressBar )
-		{
-			progressBar.setVisibility( iVisibility );
-		}
-		ImageButton imageButton = m_weakrefImageButtonCancel.get();
-		if( null != imageButton )
-		{
-			imageButton.setVisibility( iVisibility );
-		}
-		TextView textView = m_weakrefTextView.get();
-		if( null != textView )
-		{
-			textView.setVisibility( iVisibility );
 		}
 	}
 }
