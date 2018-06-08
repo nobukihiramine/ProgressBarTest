@@ -16,11 +16,11 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Integer> implements On
 {
 	// メンバー変数
 	// WeakReferenceを使用している理由。
-	// Viewオブジェクトは、Contextオブジェクトを保持している。
-	// AsyncTaskオブジェクトに、Viewオブジェクトをそのまま保持させると、
-	// 「Viewは破棄されているが、タスクはまだ完了していない」場合に、「Contextオブジェクトは、開放されずメモリリークする」。
-	// なので、WeakReferenceを使用し、「Viewは破棄されているが、タスクはまだ完了していない」場合でも、「Contextオブジェクトが開放される」ようにする。
-	// see. https://stackoverflow.com/questions/37531862/how-to-pass-context-to-asynctask/37531974
+	// 　Viewオブジェクトは、Contextオブジェクトを保持している。
+	// 　AsyncTaskオブジェクトに、Viewオブジェクトをそのまま保持させると、
+	// 　「Viewは破棄されているが、タスクはまだ完了していない」場合に、「Contextオブジェクトは、開放されずメモリリークする」。
+	// 　WeakReferenceを使用し、「Viewは破棄されているが、タスクはまだ完了していない」場合でも、「Contextオブジェクトが開放される」ようにする。
+	// 　see. https://stackoverflow.com/questions/37531862/how-to-pass-context-to-asynctask/37531974
 	private WeakReference<Context>     m_weakrefContext;    // for Toast
 	private WeakReference<ViewGroup>   m_weakrefProgressControls;    // 進捗コントロール群
 	private WeakReference<ProgressBar> m_weakrefProgressBarTask;    // プログレスバー
