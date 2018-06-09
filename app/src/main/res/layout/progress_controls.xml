@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- プログレス関連コントロール -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="top"
-    android:background="?android:attr/colorBackground"
+    android:background="@color/colorProgressControlsBackground"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -18,11 +19,13 @@
         android:paddingEnd="10dp"
         android:paddingStart="10dp">
 
+        <!-- プログレスバー上のタスク名 -->
         <TextView
             android:id="@+id/textviewTaskName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <!-- プログレスバー -->
         <ProgressBar
             android:id="@+id/progressbarTask"
             style="?android:attr/progressBarStyleHorizontal"
@@ -33,12 +36,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <!-- プログレスバー左下の進捗率 -->
             <TextView
                 android:id="@+id/textviewRate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"/>
 
+            <!-- プログレスバー右下の進捗数 -->
             <TextView
                 android:id="@+id/textviewNumber"
                 android:layout_width="wrap_content"
@@ -48,11 +53,11 @@
         </FrameLayout>
     </LinearLayout>
 
+    <!-- プログレスバー横のキャンセルボタン -->
     <ImageButton
         android:id="@+id/imagebuttonCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/cancel"
+        android:contentDescription="@string/button_cancel"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"/>
-
 </LinearLayout>

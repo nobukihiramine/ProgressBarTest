@@ -15,15 +15,18 @@ import java.util.Locale;
 // AsyncTask<Params, Progress, Result>
 public class MyAsyncTask extends AsyncTask<Void, Integer, Integer> implements OnProgressListener, View.OnClickListener
 {
-	// メンバー変数
 	// WeakReferenceを使用している理由。
 	// 　Viewオブジェクトは、Contextオブジェクトを保持している。
 	// 　AsyncTaskオブジェクトに、Viewオブジェクトをそのまま保持させると、
 	// 　「Viewは破棄されているが、タスクはまだ完了していない」場合に、「Contextオブジェクトは、開放されずメモリリークする」。
 	// 　WeakReferenceを使用し、「Viewは破棄されているが、タスクはまだ完了していない」場合でも、「Contextオブジェクトが開放される」ようにする。
 	// 　see. https://stackoverflow.com/questions/37531862/how-to-pass-context-to-asynctask/37531974
+
+	// タスク用メンバー
 	private final WeakReference<Context>     m_weakrefContext;    // for Toast
 	private final String                     m_strTaskName;    // TaskName
+
+	// プログレスコントロール関連メンバー
 	private final WeakReference<ViewGroup>   m_weakrefProgressControls;    // 進捗コントロール群
 	private final WeakReference<ProgressBar> m_weakrefProgressBarTask;    // プログレスバー
 	private final WeakReference<ImageButton> m_weakrefImageButtonCancel; // キャンセルボタン
@@ -42,11 +45,11 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Integer> implements On
 						TextView textviewRate,
 						TextView textviewNumber )
 	{
-		// タスク固有メンバー
+		// タスク用メンバー
 		m_weakrefContext = new WeakReference<>( context );
 		m_strTaskName = strTaskName;
 
-		// プログレスコントロール関連
+		// プログレスコントロール関連メンバー
 		m_weakrefProgressControls = new WeakReference<>( progresscontrols );
 		m_weakrefProgressBarTask = new WeakReference<>( progressbarTask );
 		m_weakrefImageButtonCancel = new WeakReference<>( imagebuttonCancel );
