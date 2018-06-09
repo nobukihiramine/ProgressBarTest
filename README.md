@@ -3,6 +3,14 @@
 AsyncTaskクラスを用いた非同期タスクの進捗表示は、API level 25 までは、ProgressDialogクラスを用いることで実現できましたが、API level 26 から、ProgressDialogクラスの使用は非推奨となりました。  
 AsyncTaskクラスを用いた非同期タスクの進捗表示を、（ProgressDialogクラスではなく）ProgressBarクラスを用いて実現します。  
 
+今回作成した非同期タスクの進捗表示の仕様は以下。  
+・AsyncTaskクラスを用いて非同期タスクを実行する。  
+・ProgressBarクラスを用いて進捗を表示する。  
+・非同期タスクが実行されていない場合は、ProgressBar関連コントロール群を表示しない。  
+・非同期タスクが実行されている場合は、ProgressBarは表示する。  
+・非同期タスクが実行されている場合は、タスクをキャンセルするボタンを表示する。  
+・非同期タスクが実行されている場合は、タスク名、進捗率、進捗数を表示する  
+
 ## Screenshots : スクリーンショット
 <img src="_images/Screenshot_01.png" width="256" alt="Screenshot"/> <img src="_images/Screenshot_02.png" width="256" alt="Screenshot"/> <img src="_images/Screenshot_03.png" width="256" alt="Screenshot"/>
 
