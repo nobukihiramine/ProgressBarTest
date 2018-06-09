@@ -38,11 +38,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 				// タスク実行
 				String strTaskName = String.format( Locale.US, "Task%d", iCounter );
 				MyAsyncTask myasynctask = new MyAsyncTask( this,
+														   strTaskName,
 														   (ViewGroup)findViewById( R.id.progresscontrols ),
 														   (ProgressBar)findViewById( R.id.progressbarTask ),
 														   (ImageButton)findViewById( R.id.imagebuttonCancel ),
 														   (TextView)findViewById( R.id.textviewTaskName ),
-														   strTaskName );
+														   (TextView)findViewById( R.id.textviewRate ),
+														   (TextView)findViewById( R.id.textviewNumber ) );
 				myasynctask.execute();
 				//m_asynctask.executeOnExecutor( AsyncTask.SERIAL_EXECUTOR );
 				iCounter++;

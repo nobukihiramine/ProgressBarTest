@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
+import java.util.Locale;
 
 // AsyncTask<Params, Progress, Result>
 public class MyAsyncTask extends AsyncTask<Void, Integer, Integer> implements OnProgressListener, View.OnClickListener
@@ -22,27 +23,36 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Integer> implements On
 	// 　WeakReferenceを使用し、「Viewは破棄されているが、タスクはまだ完了していない」場合でも、「Contextオブジェクトが開放される」ようにする。
 	// 　see. https://stackoverflow.com/questions/37531862/how-to-pass-context-to-asynctask/37531974
 	private final WeakReference<Context>     m_weakrefContext;    // for Toast
+	private final String                     m_strTaskName;    // TaskName
 	private final WeakReference<ViewGroup>   m_weakrefProgressControls;    // 進捗コントロール群
 	private final WeakReference<ProgressBar> m_weakrefProgressBarTask;    // プログレスバー
 	private final WeakReference<ImageButton> m_weakrefImageButtonCancel; // キャンセルボタン
 	private final WeakReference<TextView>    m_weakrefTextViewTaskName;    // タスク名テキストビュー
-	private       String                     m_strTaskName;    // TaskName
+	private final WeakReference<TextView>    m_weakrefTextViewRate;    // 進捗率テキストビュー
+	private final WeakReference<TextView>    m_weakrefTextViewNumber;    // 進捗数テキストビュー
 	private       boolean                    m_bInit;    // 初期化処理されたかフラグ
 
 	// コンストラクタ
 	public MyAsyncTask( Context context,
+						String strTaskName,
 						ViewGroup progresscontrols,
 						ProgressBar progressbarTask,
 						ImageButton imagebuttonCancel,
 						TextView textviewTaskName,
-						String strTaskName )
+						TextView textviewRate,
+						TextView textviewNumber )
 	{
+		// タスク固有メンバー
 		m_weakrefContext = new WeakReference<>( context );
+		m_strTaskName = strTaskName;
+
+		// プログレスコントロール関連
 		m_weakrefProgressControls = new WeakReference<>( progresscontrols );
 		m_weakrefProgressBarTask = new WeakReference<>( progressbarTask );
 		m_weakrefImageButtonCancel = new WeakReference<>( imagebuttonCancel );
 		m_weakrefTextViewTaskName = new WeakReference<>( textviewTaskName );
-		m_strTaskName = strTaskName;
+		m_weakrefTextViewRate = new WeakReference<>( textviewRate );
+		m_weakrefTextViewNumber = new WeakReference<>( textviewNumber );
 
 		m_bInit = false;
 	}
@@ -105,6 +115,21 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Integer> implements On
 		{
 			progressBar.setMax( progress[1] );
 			progressBar.setProgress( progress[0] );
+		}
+
+		TextView textView;
+		// 進捗率テキストの設定
+		textView = m_weakrefTextViewRate.get();
+		if( null != textView )
+		{
+			textView.setText( String.format( Locale.US, "%d%%", Math.round( ( progress[0] * 100.0f ) / progress[1] ) ) );
+		}
+
+		// 進捗数テキストの設定
+		textView = m_weakrefTextViewNumber.get();
+		if( null != textView )
+		{
+			textView.setText( String.format( Locale.US, "%d/%d", progress[0], progress[1] ) );
 		}
 	}
 
