@@ -21,13 +21,13 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Integer> implements On
 	// 　「Viewは破棄されているが、タスクはまだ完了していない」場合に、「Contextオブジェクトは、開放されずメモリリークする」。
 	// 　WeakReferenceを使用し、「Viewは破棄されているが、タスクはまだ完了していない」場合でも、「Contextオブジェクトが開放される」ようにする。
 	// 　see. https://stackoverflow.com/questions/37531862/how-to-pass-context-to-asynctask/37531974
-	private WeakReference<Context>     m_weakrefContext;    // for Toast
-	private WeakReference<ViewGroup>   m_weakrefProgressControls;    // 進捗コントロール群
-	private WeakReference<ProgressBar> m_weakrefProgressBarTask;    // プログレスバー
-	private WeakReference<ImageButton> m_weakrefImageButtonCancel; // キャンセルボタン
-	private WeakReference<TextView>    m_weakrefTextViewTaskName;    // タスク名テキストビュー
-	private String                     m_strTaskName;    // TaskName
-	private boolean                    m_bInit;    // 初期化処理されたかフラグ
+	private final WeakReference<Context>     m_weakrefContext;    // for Toast
+	private final WeakReference<ViewGroup>   m_weakrefProgressControls;    // 進捗コントロール群
+	private final WeakReference<ProgressBar> m_weakrefProgressBarTask;    // プログレスバー
+	private final WeakReference<ImageButton> m_weakrefImageButtonCancel; // キャンセルボタン
+	private final WeakReference<TextView>    m_weakrefTextViewTaskName;    // タスク名テキストビュー
+	private       String                     m_strTaskName;    // TaskName
+	private       boolean                    m_bInit;    // 初期化処理されたかフラグ
 
 	// コンストラクタ
 	public MyAsyncTask( Context context,
